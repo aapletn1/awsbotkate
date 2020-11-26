@@ -1,6 +1,5 @@
 import time
 from json.decoder import JSONDecodeError
-
 import pytest
 import allure
 import json
@@ -8,7 +7,6 @@ import requests
 import uuid
 import random
 from hamcrest import *
-# from jsonschema import validate
 from allure_commons.types import AttachmentType
 from hamcrest import *
 from datetime import datetime, timedelta
@@ -65,18 +63,6 @@ def my_request(method: str, url: str, payload):
     return response
 
 
-# def get_json_schema_from_file(file_name):
-#     BASE_PATH = "/Users/pletnev/GitHub/RuBike/"
-#     with open(BASE_PATH + file_name, 'r') as f:
-#         schema_data = f.read()
-#     return json.loads(schema_data)
-
-
-# def assert_valid_schema(data, schema_file):
-#     """ Checks whether the given data matches the schema """
-#     return validate(data, schema_file)
-
-
 def assert_response(response, status_code, matcher):
     assert_that(response.status_code, equal_to(status_code))
 
@@ -88,67 +74,12 @@ def assert_response(response, status_code, matcher):
     assert_that(response_body, matcher)
 
 
-# def assert_response_schema(response, status_code, schema_file):
-#     assert_that(response.status_code, equal_to(status_code))
-#
-#     try:
-#         response_body = json.loads(response.text)
-#         return validate(response_body, schema_file)
-#     except ValueError:
-#         print("ValueError")
-
-
 def uid():
     return str(uuid.uuid4())
 
 
 def ts():
     return int(round(time.time() * 1000))
-
-
-class MyRandom:
-
-    @staticmethod
-    def phone():
-        phone = ''.join([random.choice(list('123456789')) for x in range(random.randint(7, 7))])
-        def_code = ['900', '901', '902']
-        return '7' + str(random.choice(def_code)) + phone
-
-    @staticmethod
-    def incorrect_phone():
-        phone = ''.join([random.choice(list('123456789')) for x in range(random.randint(7, 7))])
-        return phone
-
-    @staticmethod
-    def short_phone():
-        phone = ''.join([random.choice(list('123456789')) for x in range(random.randint(9, 9))])
-        return '7'+phone
-
-    @staticmethod
-    def int_number(randint=2):
-        phone = ''.join([random.choice(list('123456789')) for x in range(random.randint(randint, randint))])
-        return int(phone)
-
-    @staticmethod
-    def long_phone():
-        phone = ''.join([random.choice(list('123456789')) for x in range(random.randint(11, 11))])
-        return '7'+phone
-
-    @staticmethod
-    def ru_string(long):
-        return ''.join([random.choice(list('йцукенгшщзхъэждлорпавыфячсмитьбю')) for x in range(random.randint(long, long))])
-
-    @staticmethod
-    def en_string(long):
-        return ''.join([random.choice(list('qwertyuioplkjhgfdsazxcvbnm')) for x in range(random.randint(long, long))])
-
-    @staticmethod
-    def symbol(long):
-        return ''.join([random.choice(list('!"№;%:?*()_+=`~;:><')) for x in range(random.randint(long, long))])
-
-    @staticmethod
-    def ru_message(randint=1):
-        return MyRandom.ru_string(MyRandom.int_number(randint)) + MyRandom.symbol(randint) + ' ' + MyRandom.ru_string(MyRandom.int_number(randint)) + MyRandom.symbol(randint) + ' ' + MyRandom.ru_string(MyRandom.int_number(randint)) + MyRandom.symbol(randint)
 
 
 def get_reply():
